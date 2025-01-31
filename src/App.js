@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import CardActionArea from '@mui/material/CardActionArea'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Button} from '@mui/material'
 
 const Test = () => {
@@ -22,7 +22,12 @@ const Test = () => {
     setAnchorEl(null)
     setTeamName(null)
   }
-
+useEffect(() => {
+  if(indiaData?.length > 0){
+    let count = indiaData.reduce((sum, item) => sum + (parseFloat(item.point) * item.amount), 0);
+    console.log("count", count);
+  }
+}, [indiaData, englandData])
   const addEntry = () => {
     if (teamName === 'India') {
       setIndiaData([
@@ -39,6 +44,8 @@ const Test = () => {
   }
   console.log({anchorEl})
   return (
+    console.log("indiaData", indiaData),
+    
     <div>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <Card
@@ -155,8 +162,14 @@ const Test = () => {
               </tr>
             )
           })}
+            <tr>
+            <td>total amount</td>
+            <td></td>
+            <td>{indiaData.reduce((sum, item) => sum + item.amount, 0)}</td>
+            <td>{indiaData.reduce((sum, item) => sum + (parseFloat(item.point) * item.amount), 0)}</td>
+          </tr>
         </table>
-
+        
         <table>
           <tr>
             <th>Name</th>
@@ -206,7 +219,14 @@ const Test = () => {
               </tr>
             )
           })}
+          <tr>
+          <td>total amount</td>
+            <td></td>
+            <td>{englandData.reduce((sum, item) => sum + item.amount, 0)}</td>
+            <td>{englandData.reduce((sum, item) => sum + (parseFloat(item.point) * item.amount), 0)}</td>
+             </tr>
         </table>
+       
       </div>
 
       <Menu
